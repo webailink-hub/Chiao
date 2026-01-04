@@ -18,6 +18,17 @@
         tailwind.config = {
             theme: {
                 extend: {
+                    colors: {
+                        earth: {
+                            50: '#fbfaf9',
+                            100: '#f5f5f4', // Stone-100
+                            200: '#e7e5e4',
+                            300: '#d6d3d1',
+                            800: '#292524', // Stone-800
+                            900: '#1c1917', // Stone-900
+                        },
+                        paper: '#f0ebe3', // Custom warm beige background
+                    },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
@@ -42,19 +53,24 @@
     </script>
 
     <style>
-        body { background-color: #0a0a0a; color: #ffffff; -webkit-font-smoothing: antialiased; }
+        /* Updated Body Background for Light Earth Theme */
+        body { background-color: #f0ebe3; color: #44403c; -webkit-font-smoothing: antialiased; }
+        
+        /* Darker noise for light background */
         .texture-overlay {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: 0.15;
+            mix-blend-mode: multiply;
         }
-        .nav-link.active { color: white; }
+
+        .nav-link.active { color: #1c1917; /* stone-900 */ text-decoration: underline; text-underline-offset: 4px; }
         .project-row:hover .project-image { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         
-        /* Custom Scrollbar */
+        /* Custom Scrollbar - Earth Tones */
         ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #333; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        ::-webkit-scrollbar-track { background: #f0ebe3; }
+        ::-webkit-scrollbar-thumb { background: #a8a29e; }
+        ::-webkit-scrollbar-thumb:hover { background: #78716c; }
 
         /* Video Background Placeholder Styling */
         .hero-video-container video {
@@ -67,7 +83,7 @@
             height: auto;
             transform: translateX(-50%) translateY(-50%);
             object-fit: cover;
-            opacity: 0.4;
+            opacity: 0.6; /* Increased opacity slightly for contrast */
         }
     </style>
 </head>
@@ -77,61 +93,60 @@
     <div class="fixed inset-0 pointer-events-none texture-overlay z-[100]"></div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-[90] mix-blend-difference px-6 py-8 md:px-12 flex justify-between items-center">
+    <nav class="fixed top-0 w-full z-[90] mix-blend-difference px-6 py-8 md:px-12 flex justify-between items-center text-stone-900">
         <a href="#hero" class="text-xl font-serif tracking-tighter hover:opacity-70 transition-opacity">C / C</a>
         
         <!-- Desktop Menu -->
         <div class="hidden md:flex gap-12 text-[10px] uppercase tracking-[0.3em]">
-            <a href="#about" class="nav-link text-neutral-500 hover:text-white transition-all duration-500 relative group" data-section="about">About</a>
-            <a href="#erhu" class="nav-link text-neutral-500 hover:text-white transition-all duration-500 relative group" data-section="erhu">Erhu</a>
-            <a href="#works" class="nav-link text-neutral-500 hover:text-white transition-all duration-500 relative group" data-section="works">Works</a>
-            <a href="#contact" class="nav-link text-neutral-500 hover:text-white transition-all duration-500 relative group" data-section="contact">Contact</a>
+            <a href="#about" class="nav-link text-stone-500 hover:text-stone-900 transition-all duration-500 relative group" data-section="about">About</a>
+            <a href="#erhu" class="nav-link text-stone-500 hover:text-stone-900 transition-all duration-500 relative group" data-section="erhu">Erhu</a>
+            <a href="#works" class="nav-link text-stone-500 hover:text-stone-900 transition-all duration-500 relative group" data-section="works">Works</a>
+            <a href="#contact" class="nav-link text-stone-500 hover:text-stone-900 transition-all duration-500 relative group" data-section="contact">Contact</a>
         </div>
 
         <!-- Mobile Menu Toggle -->
-        <button id="menu-toggle" class="md:hidden uppercase text-[10px] tracking-widest focus:outline-none">Menu</button>
+        <button id="menu-toggle" class="md:hidden uppercase text-[10px] tracking-widest focus:outline-none text-stone-900">Menu</button>
     </nav>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-[80] bg-neutral-950 flex flex-col items-center justify-center gap-8 translate-y-full transition-transform duration-700 ease-in-out">
-        <a href="#about" class="mobile-link font-serif text-4xl text-neutral-400 hover:text-white transition-colors">About</a>
-        <a href="#erhu" class="mobile-link font-serif text-4xl text-neutral-400 hover:text-white transition-colors">Erhu</a>
-        <a href="#works" class="mobile-link font-serif text-4xl text-neutral-400 hover:text-white transition-colors">Works</a>
-        <a href="#contact" class="mobile-link font-serif text-4xl text-neutral-400 hover:text-white transition-colors">Contact</a>
+    <div id="mobile-menu" class="fixed inset-0 z-[80] bg-[#f0ebe3] flex flex-col items-center justify-center gap-8 translate-y-full transition-transform duration-700 ease-in-out">
+        <a href="#about" class="mobile-link font-serif text-4xl text-stone-400 hover:text-stone-900 transition-colors">About</a>
+        <a href="#erhu" class="mobile-link font-serif text-4xl text-stone-400 hover:text-stone-900 transition-colors">Erhu</a>
+        <a href="#works" class="mobile-link font-serif text-4xl text-stone-400 hover:text-stone-900 transition-colors">Works</a>
+        <a href="#contact" class="mobile-link font-serif text-4xl text-stone-400 hover:text-stone-900 transition-colors">Contact</a>
     </div>
 
     <!-- HERO SECTION -->
     <section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden">
         
-        <!-- VIDEO BACKGROUND PLACEHOLDER -->
-        <!-- Replace 'poster' with a high-res image and 'src' with your actual .mp4 file -->
-        <div class="absolute inset-0 hero-video-container bg-neutral-900">
+        <!-- VIDEO BACKGROUND -->
+        <div class="absolute inset-0 hero-video-container bg-stone-900">
             <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80&w=2000">
                 <source src="https://i.imgur.com/WfajINu.mp4" type="video/mp4">
-                <!-- Fallback to static image if video fails -->
                 <img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80&w=2000" alt="Hero Background">
             </video>
-            <!-- Overlay Gradient -->
-            <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-neutral-950"></div>
+            <!-- Overlay Gradient: Fade to #f0ebe3 (Paper/Beige) at bottom -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-[#f0ebe3]"></div>
         </div>
         
-        <div class="relative z-10 text-center px-4">
-            <span class="block text-[10px] tracking-[0.5em] uppercase mb-6 opacity-60 animate-fade-in-up">Vienna • Taiwan</span>
-            <h1 class="text-6xl md:text-9xl font-serif italic leading-[0.9] mb-8 animate-fade-in-up" style="animation-delay: 0.2s">
+        <div class="relative z-10 text-center px-4 text-white mix-blend-overlay md:mix-blend-normal">
+            <!-- Note: Using white text on hero for contrast against video, but transitioning to dark text for content -->
+            <span class="block text-[10px] tracking-[0.5em] uppercase mb-6 opacity-80 animate-fade-in-up text-stone-100">Vienna • Taiwan</span>
+            <h1 class="text-6xl md:text-9xl font-serif italic leading-[0.9] mb-8 animate-fade-in-up text-white drop-shadow-md" style="animation-delay: 0.2s">
                 Chiao-Hua<br/>Chang
             </h1>
-            <p class="text-[10px] md:text-xs tracking-[0.3em] uppercase opacity-80 mb-16 animate-fade-in-up" style="animation-delay: 0.4s">
+            <p class="text-[10px] md:text-xs tracking-[0.3em] uppercase opacity-90 mb-16 animate-fade-in-up text-stone-100" style="animation-delay: 0.4s">
                 Erhu Soloist & Ethnomusicologist
             </p>
             
             <div class="flex flex-col md:flex-row gap-6 justify-center items-center animate-fade-in-up" style="animation-delay: 0.6s">
-                <a href="#about" class="inline-flex items-center gap-4 text-[10px] tracking-[0.3em] uppercase text-white hover:text-neutral-400 transition-colors">
+                <a href="#about" class="inline-flex items-center gap-4 text-[10px] tracking-[0.3em] uppercase text-white hover:text-stone-200 transition-colors drop-shadow-sm">
                     Enter Portfolio 
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
 
                 <!-- CALENDLY LINK (Scrolls to Footer) -->
-                <a href="#booking" class="inline-flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full text-[10px] tracking-[0.2em] uppercase transition-all hover:scale-105">
+                <a href="#booking" class="inline-flex items-center gap-3 px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/40 rounded-full text-white text-[10px] tracking-[0.2em] uppercase transition-all hover:scale-105 shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     Book Lesson
                 </a>
@@ -139,8 +154,9 @@
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-30">
-            <div class="w-px h-12 bg-white origin-top animate-pulse"></div>
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-40">
+            <!-- Changed scroll line to dark since background fades to light -->
+            <div class="w-px h-12 bg-stone-800 origin-top animate-pulse"></div>
         </div>
     </section>
 
@@ -148,37 +164,38 @@
     <section id="about" class="py-32 px-6 md:px-12 max-w-7xl mx-auto">
         <div class="grid lg:grid-cols-2 gap-24 items-center">
             <div class="relative group">
-                <div class="aspect-[3/4] bg-neutral-900 overflow-hidden relative">
+                <div class="aspect-[3/4] bg-stone-200 overflow-hidden relative shadow-xl">
                     <img src="https://images.unsplash.com/photo-1465847899078-b413929f7120?auto=format&fit=crop&q=80&w=1200" 
-                         class="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out" 
+                         class="w-full h-full object-cover sepia-[.2] contrast-75 brightness-110 group-hover:sepia-0 group-hover:contrast-100 group-hover:scale-105 transition-all duration-1000 ease-out" 
                          alt="Chiao-Hua Chang Performance">
                 </div>
-                <div class="absolute -bottom-12 -left-6 md:-left-12 text-[12vw] font-serif text-neutral-900/40 -z-10 select-none">01</div>
+                <!-- Lightened text for the number -->
+                <div class="absolute -bottom-12 -left-6 md:-left-12 text-[12vw] font-serif text-stone-300/60 -z-10 select-none">01</div>
             </div>
             
             <div class="space-y-12">
                 <div>
-                    <h2 class="text-[10px] uppercase tracking-[0.5em] text-neutral-500 mb-8 italic flex items-center gap-4">
-                        <span class="w-8 h-px bg-neutral-800"></span> The Artist
+                    <h2 class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-8 italic flex items-center gap-4">
+                        <span class="w-8 h-px bg-stone-400"></span> The Artist
                     </h2>
-                    <h3 class="text-4xl md:text-6xl font-serif mb-8 leading-[1.1]">
+                    <h3 class="text-4xl md:text-6xl font-serif mb-8 leading-[1.1] text-stone-900">
                         Bridging continents through the resonance of two strings.
                     </h3>
                 </div>
 
-                <div class="space-y-6 text-neutral-400 leading-relaxed font-light text-lg">
+                <div class="space-y-6 text-stone-600 leading-relaxed font-light text-lg">
                     <p>Based in Vienna since 2013, Chiao-Hua Chang creates a unique sonic dialogue between Eastern tradition and Western innovation. With a Master's in Ethnomusicology, she navigates the space between classical discipline and avant-garde improvisation.</p>
                     <p>Her diverse portfolio spans from the Orchestra of Cultures to experimental jazz at Porgy & Bess. She challenges the boundaries of the Erhu, proving it is a living, breathing voice in contemporary music.</p>
                 </div>
 
-                <div class="flex gap-16 pt-8 border-t border-neutral-900">
+                <div class="flex gap-16 pt-8 border-t border-stone-300 text-stone-800">
                     <div>
                         <p class="text-3xl font-serif">15+</p>
-                        <p class="text-[9px] uppercase tracking-widest text-neutral-500 mt-1">Years Teaching</p>
+                        <p class="text-[9px] uppercase tracking-widest text-stone-500 mt-1">Years Teaching</p>
                     </div>
                     <div>
                         <p class="text-3xl font-serif">MA</p>
-                        <p class="text-[9px] uppercase tracking-widest text-neutral-500 mt-1">Ethnomusicology</p>
+                        <p class="text-[9px] uppercase tracking-widest text-stone-500 mt-1">Ethnomusicology</p>
                     </div>
                 </div>
             </div>
@@ -186,33 +203,35 @@
     </section>
 
     <!-- THE ERHU FEATURE -->
-    <section id="erhu" class="bg-neutral-900/30 py-40 px-6">
+    <!-- Lighter background for this section -->
+    <section id="erhu" class="bg-stone-200/40 py-40 px-6">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-24">
-                <h2 class="text-[10px] uppercase tracking-[0.5em] text-neutral-500 mb-4">The Instrument</h2>
-                <h3 class="text-5xl md:text-7xl font-serif italic">Spirit & Structure</h3>
+                <h2 class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-4">The Instrument</h2>
+                <h3 class="text-5xl md:text-7xl font-serif italic text-stone-900">Spirit & Structure</h3>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-800 border border-neutral-800">
-                <div class="bg-neutral-950 p-12 hover:bg-neutral-900 transition-colors">
-                    <span class="text-neutral-700 font-serif italic mb-6 block text-xl">Origins</span>
-                    <h4 class="text-2xl font-serif mb-2">Tang Dynasty</h4>
-                    <p class="text-[10px] uppercase tracking-widest text-neutral-500">~1000 Year Heritage</p>
+            <!-- Changed border colors and card backgrounds to white -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-stone-300 border border-stone-300">
+                <div class="bg-[#fbfaf9] p-12 hover:bg-white transition-colors">
+                    <span class="text-stone-400 font-serif italic mb-6 block text-xl">Origins</span>
+                    <h4 class="text-2xl font-serif mb-2 text-stone-900">Tang Dynasty</h4>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500">~1000 Year Heritage</p>
                 </div>
-                <div class="bg-neutral-950 p-12 hover:bg-neutral-900 transition-colors">
-                    <span class="text-neutral-700 font-serif italic mb-6 block text-xl">Resonance</span>
-                    <h4 class="text-2xl font-serif mb-2">Snakeskin</h4>
-                    <p class="text-[10px] uppercase tracking-widest text-neutral-500">Organic Vocal Timbre</p>
+                <div class="bg-[#fbfaf9] p-12 hover:bg-white transition-colors">
+                    <span class="text-stone-400 font-serif italic mb-6 block text-xl">Resonance</span>
+                    <h4 class="text-2xl font-serif mb-2 text-stone-900">Snakeskin</h4>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500">Organic Vocal Timbre</p>
                 </div>
-                <div class="bg-neutral-950 p-12 hover:bg-neutral-900 transition-colors">
-                    <span class="text-neutral-700 font-serif italic mb-6 block text-xl">Material</span>
-                    <h4 class="text-2xl font-serif mb-2">Ebony & Silk</h4>
-                    <p class="text-[10px] uppercase tracking-widest text-neutral-500">Density & Fluidity</p>
+                <div class="bg-[#fbfaf9] p-12 hover:bg-white transition-colors">
+                    <span class="text-stone-400 font-serif italic mb-6 block text-xl">Material</span>
+                    <h4 class="text-2xl font-serif mb-2 text-stone-900">Ebony & Silk</h4>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500">Density & Fluidity</p>
                 </div>
-                <div class="bg-neutral-950 p-12 hover:bg-neutral-900 transition-colors">
-                    <span class="text-neutral-700 font-serif italic mb-6 block text-xl">Range</span>
-                    <h4 class="text-2xl font-serif mb-2">3.5 Octaves</h4>
-                    <p class="text-[10px] uppercase tracking-widest text-neutral-500">Extreme Expressivity</p>
+                <div class="bg-[#fbfaf9] p-12 hover:bg-white transition-colors">
+                    <span class="text-stone-400 font-serif italic mb-6 block text-xl">Range</span>
+                    <h4 class="text-2xl font-serif mb-2 text-stone-900">3.5 Octaves</h4>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500">Extreme Expressivity</p>
                 </div>
             </div>
         </div>
@@ -221,63 +240,64 @@
     <!-- SELECTED WORKS -->
     <section id="works" class="py-40 px-6 md:px-12 max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row justify-between items-baseline mb-24 gap-8">
-            <h2 class="text-5xl md:text-8xl font-serif">Selected Works</h2>
-            <p class="text-[10px] uppercase tracking-[0.4em] text-neutral-500 border-l border-neutral-800 pl-8 italic">Archive 2013—Present</p>
+            <h2 class="text-5xl md:text-8xl font-serif text-stone-900">Selected Works</h2>
+            <p class="text-[10px] uppercase tracking-[0.4em] text-stone-500 border-l border-stone-400 pl-8 italic">Archive 2013—Present</p>
         </div>
 
-        <div class="divide-y divide-neutral-900">
+        <!-- Lighter divider -->
+        <div class="divide-y divide-stone-300">
             <!-- Project Row 1 -->
             <div class="project-row group relative py-16 flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer">
                 <div class="flex gap-12 items-center z-10">
-                    <span class="text-[10px] font-mono text-neutral-700">01</span>
+                    <span class="text-[10px] font-mono text-stone-400">01</span>
                     <div>
-                        <h4 class="text-3xl md:text-5xl font-serif group-hover:italic group-hover:translate-x-4 transition-all duration-500">Three Continents</h4>
-                        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mt-4">Collab: Przemysław Strączek</p>
+                        <h4 class="text-3xl md:text-5xl font-serif text-stone-800 group-hover:text-stone-900 group-hover:italic group-hover:translate-x-4 transition-all duration-500">Three Continents</h4>
+                        <p class="text-[10px] uppercase tracking-widest text-stone-500 mt-4">Collab: Przemysław Strączek</p>
                     </div>
                 </div>
                 <div class="mt-4 md:mt-0 text-right z-10">
-                    <p class="text-[10px] uppercase tracking-widest text-neutral-500">Instrumentalist • 2023</p>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500">Instrumentalist • 2023</p>
                 </div>
                 <!-- Hover Image -->
                 <img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80&w=600" 
-                     class="project-image absolute top-1/2 left-1/2 w-64 aspect-video object-cover -translate-x-1/2 -translate-y-1/2 opacity-0 scale-90 transition-all duration-700 pointer-events-none z-0 brightness-50" alt="Work 1">
+                     class="project-image absolute top-1/2 left-1/2 w-64 aspect-video object-cover -translate-x-1/2 -translate-y-1/2 opacity-0 scale-90 transition-all duration-700 pointer-events-none z-0 sepia-[.2]" alt="Work 1">
             </div>
 
             <!-- Project Row 2 -->
             <div class="project-row group relative py-16 flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer">
                 <div class="flex gap-12 items-center z-10">
-                    <span class="text-[10px] font-mono text-neutral-700">02</span>
+                    <span class="text-[10px] font-mono text-stone-400">02</span>
                     <div>
-                        <h4 class="text-3xl md:text-5xl font-serif group-hover:italic group-hover:translate-x-4 transition-all duration-500">Don Quixote</h4>
-                        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mt-4">Collab: Haag Summer Theatre</p>
+                        <h4 class="text-3xl md:text-5xl font-serif text-stone-800 group-hover:text-stone-900 group-hover:italic group-hover:translate-x-4 transition-all duration-500">Don Quixote</h4>
+                        <p class="text-[10px] uppercase tracking-widest text-stone-500 mt-4">Collab: Haag Summer Theatre</p>
                     </div>
                 </div>
                 <div class="mt-4 md:mt-0 text-right z-10">
-                    <p class="text-[10px] uppercase tracking-widest text-neutral-500">Theatrical Performance • 2021</p>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500">Theatrical Performance • 2021</p>
                 </div>
                 <img src="https://images.unsplash.com/photo-1465847899078-b413929f7120?auto=format&fit=crop&q=80&w=600" 
-                     class="project-image absolute top-1/2 left-1/2 w-64 aspect-video object-cover -translate-x-1/2 -translate-y-1/2 opacity-0 scale-90 transition-all duration-700 pointer-events-none z-0 brightness-50" alt="Work 2">
+                     class="project-image absolute top-1/2 left-1/2 w-64 aspect-video object-cover -translate-x-1/2 -translate-y-1/2 opacity-0 scale-90 transition-all duration-700 pointer-events-none z-0 sepia-[.2]" alt="Work 2">
             </div>
 
             <!-- Project Row 3 -->
             <div class="project-row group relative py-16 flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer">
                 <div class="flex gap-12 items-center z-10">
-                    <span class="text-[10px] font-mono text-neutral-700">03</span>
+                    <span class="text-[10px] font-mono text-stone-400">03</span>
                     <div>
-                        <h4 class="text-3xl md:text-5xl font-serif group-hover:italic group-hover:translate-x-4 transition-all duration-500">Porgy & Bess</h4>
-                        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mt-4">Collab: Otto Lechner</p>
+                        <h4 class="text-3xl md:text-5xl font-serif text-stone-800 group-hover:text-stone-900 group-hover:italic group-hover:translate-x-4 transition-all duration-500">Porgy & Bess</h4>
+                        <p class="text-[10px] uppercase tracking-widest text-stone-500 mt-4">Collab: Otto Lechner</p>
                     </div>
                 </div>
                 <div class="mt-4 md:mt-0 text-right z-10">
-                    <p class="text-[10px] uppercase tracking-widest text-neutral-500">Jazz Improvisation • 2019</p>
+                    <p class="text-[10px] uppercase tracking-widest text-stone-500">Jazz Improvisation • 2019</p>
                 </div>
                 <img src="https://images.unsplash.com/photo-1514119412350-e174d90d280e?auto=format&fit=crop&q=80&w=600" 
-                     class="project-image absolute top-1/2 left-1/2 w-64 aspect-video object-cover -translate-x-1/2 -translate-y-1/2 opacity-0 scale-90 transition-all duration-700 pointer-events-none z-0 brightness-50" alt="Work 3">
+                     class="project-image absolute top-1/2 left-1/2 w-64 aspect-video object-cover -translate-x-1/2 -translate-y-1/2 opacity-0 scale-90 transition-all duration-700 pointer-events-none z-0 sepia-[.2]" alt="Work 3">
             </div>
         </div>
 
         <div class="mt-24 text-center">
-            <a href="#" class="group inline-flex items-center gap-6 text-[10px] tracking-[0.4em] uppercase border border-neutral-800 px-12 py-6 hover:bg-white hover:text-black transition-all">
+            <a href="#" class="group inline-flex items-center gap-6 text-[10px] tracking-[0.4em] uppercase border border-stone-400 text-stone-600 px-12 py-6 hover:bg-stone-800 hover:text-white transition-all">
                 View Instagram Archive
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-2 transition-transform"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
@@ -285,122 +305,123 @@
     </section>
 
     <!-- PEDAGOGY / LESSONS -->
-    <section class="py-32 px-6 md:px-12 bg-neutral-900/10">
+    <section class="py-32 px-6 md:px-12 bg-stone-200/40">
         <div class="max-w-7xl mx-auto">
             <div class="mb-24 max-w-2xl">
-                <h2 class="text-[10px] uppercase tracking-[0.5em] text-neutral-500 mb-8 italic flex items-center gap-4">
-                    <span class="w-8 h-px bg-neutral-800"></span> Pedagogy
+                <h2 class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mb-8 italic flex items-center gap-4">
+                    <span class="w-8 h-px bg-stone-400"></span> Pedagogy
                 </h2>
-                <h3 class="text-4xl font-serif mb-8 italic">Private instruction for dedicated students.</h3>
-                <p class="text-neutral-500 leading-relaxed">Curriculum is tailored to individual goals, spanning from traditional Chinese technique to contemporary improvisation and cross-genre studies.</p>
+                <h3 class="text-4xl font-serif mb-8 italic text-stone-900">Private instruction for dedicated students.</h3>
+                <p class="text-stone-600 leading-relaxed">Curriculum is tailored to individual goals, spanning from traditional Chinese technique to contemporary improvisation and cross-genre studies.</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- Level I Card -->
-                <div class="group relative bg-neutral-950 border border-neutral-900 hover:border-neutral-700 transition-all duration-700 cursor-pointer overflow-hidden flex flex-col h-full">
+                <!-- Level I Card - Converted to Link -->
+                <a href="#booking" class="group relative bg-[#fbfaf9] border border-stone-200 hover:border-stone-400 transition-all duration-700 cursor-pointer overflow-hidden flex flex-col h-full shadow-sm hover:shadow-xl">
                     <!-- Lesson Image -->
-                    <div class="h-48 overflow-hidden relative border-b border-neutral-900">
-                        <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0" alt="Beginner Lesson">
-                        <div class="absolute inset-0 bg-neutral-950/20"></div>
+                    <div class="h-48 overflow-hidden relative border-b border-stone-200">
+                        <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 sepia-[.3]" alt="Beginner Lesson">
+                        <div class="absolute inset-0 bg-stone-900/10"></div>
                     </div>
 
                     <div class="p-10 flex flex-col flex-grow">
-                        <div class="absolute top-4 right-4 p-2 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-500 z-10 bg-neutral-950/50 backdrop-blur-md rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M7 7l10 10M17 7H7v10"/></svg>
+                        <div class="absolute top-4 right-4 p-2 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-500 z-10 bg-white/50 backdrop-blur-md rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-stone-900"><path d="M7 7l10 10M17 7H7v10"/></svg>
                         </div>
                         
-                        <span class="text-[10px] tracking-[0.3em] text-neutral-600 uppercase mb-8 block group-hover:text-neutral-400 transition-colors">Level I</span>
-                        <h4 class="text-2xl font-serif mb-6 group-hover:italic transition-all">Fundamentals</h4>
-                        <p class="text-sm text-neutral-500 leading-relaxed italic mb-12 flex-grow">Posture, Jianpu notation, open strings, and basic scales for the absolute beginner.</p>
+                        <span class="text-[10px] tracking-[0.3em] text-stone-400 uppercase mb-8 block group-hover:text-stone-600 transition-colors">Level I</span>
+                        <h4 class="text-2xl font-serif mb-6 text-stone-800 group-hover:italic transition-all">Fundamentals</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed italic mb-12 flex-grow">Posture, Jianpu notation, open strings, and basic scales for the absolute beginner.</p>
                         
-                        <div class="pt-6 border-t border-neutral-900 flex justify-between items-center mt-auto">
-                            <span class="text-[9px] uppercase tracking-widest text-neutral-700 group-hover:text-white transition-colors">Inquire</span>
-                            <div class="w-8 h-px bg-neutral-800 group-hover:w-16 group-hover:bg-white transition-all duration-500"></div>
+                        <div class="pt-6 border-t border-stone-200 flex justify-between items-center mt-auto">
+                            <span class="text-[9px] uppercase tracking-widest text-stone-600 group-hover:text-stone-900 transition-colors">Inquire</span>
+                            <div class="w-8 h-px bg-stone-300 group-hover:w-16 group-hover:bg-stone-900 transition-all duration-500"></div>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Level II Card -->
-                <div class="group relative bg-neutral-950 border border-neutral-900 hover:border-neutral-700 transition-all duration-700 cursor-pointer overflow-hidden flex flex-col h-full">
+                <!-- Level II Card - Converted to Link -->
+                <a href="#booking" class="group relative bg-[#fbfaf9] border border-stone-200 hover:border-stone-400 transition-all duration-700 cursor-pointer overflow-hidden flex flex-col h-full shadow-sm hover:shadow-xl">
                      <!-- Lesson Image -->
-                     <div class="h-48 overflow-hidden relative border-b border-neutral-900">
-                        <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0" alt="Intermediate Lesson">
-                        <div class="absolute inset-0 bg-neutral-950/20"></div>
+                     <div class="h-48 overflow-hidden relative border-b border-stone-200">
+                        <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 sepia-[.3]" alt="Intermediate Lesson">
+                        <div class="absolute inset-0 bg-stone-900/10"></div>
                     </div>
 
                     <div class="p-10 flex flex-col flex-grow">
-                        <div class="absolute top-4 right-4 p-2 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-500 z-10 bg-neutral-950/50 backdrop-blur-md rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M7 7l10 10M17 7H7v10"/></svg>
+                        <div class="absolute top-4 right-4 p-2 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-500 z-10 bg-white/50 backdrop-blur-md rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-stone-900"><path d="M7 7l10 10M17 7H7v10"/></svg>
                         </div>
                         
-                        <span class="text-[10px] tracking-[0.3em] text-neutral-600 uppercase mb-8 block group-hover:text-neutral-400 transition-colors">Level II</span>
-                        <h4 class="text-2xl font-serif mb-6 group-hover:italic transition-all">Technique</h4>
-                        <p class="text-sm text-neutral-500 leading-relaxed italic mb-12 flex-grow">Vibrato, shifting positions, glissando, and traditional folk repertoire development.</p>
+                        <span class="text-[10px] tracking-[0.3em] text-stone-400 uppercase mb-8 block group-hover:text-stone-600 transition-colors">Level II</span>
+                        <h4 class="text-2xl font-serif mb-6 text-stone-800 group-hover:italic transition-all">Technique</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed italic mb-12 flex-grow">Vibrato, shifting positions, glissando, and traditional folk repertoire development.</p>
                         
-                        <div class="pt-6 border-t border-neutral-900 flex justify-between items-center mt-auto">
-                            <span class="text-[9px] uppercase tracking-widest text-neutral-700 group-hover:text-white transition-colors">Inquire</span>
-                            <div class="w-8 h-px bg-neutral-800 group-hover:w-16 group-hover:bg-white transition-all duration-500"></div>
+                        <div class="pt-6 border-t border-stone-200 flex justify-between items-center mt-auto">
+                            <span class="text-[9px] uppercase tracking-widest text-stone-600 group-hover:text-stone-900 transition-colors">Inquire</span>
+                            <div class="w-8 h-px bg-stone-300 group-hover:w-16 group-hover:bg-stone-900 transition-all duration-500"></div>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Level III Card -->
-                <div class="group relative bg-neutral-950 border border-neutral-900 hover:border-neutral-700 transition-all duration-700 cursor-pointer overflow-hidden flex flex-col h-full">
+                <!-- Level III Card - Converted to Link -->
+                <a href="#booking" class="group relative bg-[#fbfaf9] border border-stone-200 hover:border-stone-400 transition-all duration-700 cursor-pointer overflow-hidden flex flex-col h-full shadow-sm hover:shadow-xl">
                      <!-- Lesson Image -->
-                     <div class="h-48 overflow-hidden relative border-b border-neutral-900">
-                        <img src="https://images.unsplash.com/photo-1453738773917-9c3eff1db985?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0" alt="Advanced Lesson">
-                        <div class="absolute inset-0 bg-neutral-950/20"></div>
+                     <div class="h-48 overflow-hidden relative border-b border-stone-200">
+                        <img src="https://images.unsplash.com/photo-1453738773917-9c3eff1db985?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 sepia-[.3]" alt="Advanced Lesson">
+                        <div class="absolute inset-0 bg-stone-900/10"></div>
                     </div>
 
                     <div class="p-10 flex flex-col flex-grow">
-                        <div class="absolute top-4 right-4 p-2 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-500 z-10 bg-neutral-950/50 backdrop-blur-md rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M7 7l10 10M17 7H7v10"/></svg>
+                        <div class="absolute top-4 right-4 p-2 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-500 z-10 bg-white/50 backdrop-blur-md rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-stone-900"><path d="M7 7l10 10M17 7H7v10"/></svg>
                         </div>
                         
-                        <span class="text-[10px] tracking-[0.3em] text-neutral-600 uppercase mb-8 block group-hover:text-neutral-400 transition-colors">Level III</span>
-                        <h4 class="text-2xl font-serif mb-6 group-hover:italic transition-all">Performance</h4>
-                        <p class="text-sm text-neutral-500 leading-relaxed italic mb-12 flex-grow">Advanced bowing, contemporary improvisation, and stage preparation for professional use.</p>
+                        <span class="text-[10px] tracking-[0.3em] text-stone-400 uppercase mb-8 block group-hover:text-stone-600 transition-colors">Level III</span>
+                        <h4 class="text-2xl font-serif mb-6 text-stone-800 group-hover:italic transition-all">Performance</h4>
+                        <p class="text-sm text-stone-500 leading-relaxed italic mb-12 flex-grow">Advanced bowing, contemporary improvisation, and stage preparation for professional use.</p>
                         
-                        <div class="pt-6 border-t border-neutral-900 flex justify-between items-center mt-auto">
-                            <span class="text-[9px] uppercase tracking-widest text-neutral-700 group-hover:text-white transition-colors">Inquire</span>
-                            <div class="w-8 h-px bg-neutral-800 group-hover:w-16 group-hover:bg-white transition-all duration-500"></div>
+                        <div class="pt-6 border-t border-stone-200 flex justify-between items-center mt-auto">
+                            <span class="text-[9px] uppercase tracking-widest text-stone-600 group-hover:text-stone-900 transition-colors">Inquire</span>
+                            <div class="w-8 h-px bg-stone-300 group-hover:w-16 group-hover:bg-stone-900 transition-all duration-500"></div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- FOOTER / CONTACT -->
-    <footer id="contact" class="pt-48 pb-24 px-6 md:px-12 text-center border-t border-neutral-900">
+    <footer id="contact" class="pt-48 pb-24 px-6 md:px-12 text-center border-t border-stone-300 bg-[#f0ebe3]">
         
         <!-- CALENDLY EMBED SECTION -->
         <div id="booking" class="mb-48 max-w-4xl mx-auto">
-             <h2 class="text-[10px] uppercase tracking-[0.6em] text-neutral-600 mb-12 italic">Book a Session</h2>
+             <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-500 mb-12 italic">Book a Session</h2>
              <!-- Calendly inline widget begin -->
-             <div class="calendly-inline-widget w-full" data-url="https://calendly.com/erhu5030/30min?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:700px;filter: invert(1) hue-rotate(180deg);"></div>
+             <!-- REMOVED: invert filter, so it shows up as standard light mode to match the website -->
+             <div class="calendly-inline-widget w-full" data-url="https://calendly.com/erhu5030/30min?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:700px;"></div>
              <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
              <!-- Calendly inline widget end -->
         </div>
 
-        <h2 class="text-[10px] uppercase tracking-[0.6em] text-neutral-600 mb-12 italic">Collaborate</h2>
+        <h2 class="text-[10px] uppercase tracking-[0.6em] text-stone-500 mb-12 italic">Collaborate</h2>
         
         <div class="mb-16 flex flex-col gap-6 items-center">
-            <a href="mailto:contact@chiaohua.com" class="text-4xl md:text-7xl font-serif hover:opacity-50 transition-opacity">
+            <a href="mailto:contact@chiaohua.com" class="text-4xl md:text-7xl font-serif text-stone-800 hover:opacity-50 transition-opacity">
                 contact@chiaohua.com
             </a>
-            <a href="tel:+4312345678" class="text-xl md:text-2xl font-serif text-neutral-500 hover:text-white transition-colors">
+            <a href="tel:+4312345678" class="text-xl md:text-2xl font-serif text-stone-500 hover:text-stone-800 transition-colors">
                 +43 (1) 234 5678
             </a>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-x-12 gap-y-6 mb-32 opacity-40 hover:opacity-100 transition-opacity">
-            <a href="#" class="text-[10px] tracking-[0.4em] uppercase hover:text-white">Instagram</a>
-            <a href="#" class="text-[10px] tracking-[0.4em] uppercase hover:text-white">Soundcloud</a>
-            <a href="#" class="text-[10px] tracking-[0.4em] uppercase hover:text-white">LinkedIn</a>
+        <div class="flex flex-wrap justify-center gap-x-12 gap-y-6 mb-32 opacity-40 hover:opacity-100 transition-opacity text-stone-900">
+            <a href="#" class="text-[10px] tracking-[0.4em] uppercase hover:text-stone-600">Instagram</a>
+            <a href="#" class="text-[10px] tracking-[0.4em] uppercase hover:text-stone-600">Soundcloud</a>
+            <a href="#" class="text-[10px] tracking-[0.4em] uppercase hover:text-stone-600">LinkedIn</a>
         </div>
 
-        <div class="flex flex-col md:flex-row justify-between items-center text-[9px] uppercase tracking-[0.3em] text-neutral-700">
+        <div class="flex flex-col md:flex-row justify-between items-center text-[9px] uppercase tracking-[0.3em] text-stone-600">
             <span>© 2026 Chiao-Hua Chang</span>
             <span class="mt-4 md:mt-0 italic">Based in Vienna, Austria</span>
         </div>
@@ -439,11 +460,11 @@
             });
 
             navLinks.forEach(link => {
-                link.classList.remove('text-white');
-                link.classList.add('text-neutral-500');
+                link.classList.remove('text-stone-900');
+                link.classList.add('text-stone-500');
                 if (link.getAttribute('data-section') === current) {
-                    link.classList.add('text-white');
-                    link.classList.remove('text-neutral-500');
+                    link.classList.add('text-stone-900');
+                    link.classList.remove('text-stone-500');
                 }
             });
         });
