@@ -15,6 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;500&display=swap" rel="stylesheet">
 
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -136,6 +142,18 @@
         /* Modal Transitions */
         #video-modal {
             transition: opacity 0.5s ease;
+        }
+        
+        /* Leaflet Map Customization */
+        .leaflet-popup-content-wrapper {
+            border-radius: 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            padding: 0;
+        }
+        .leaflet-popup-content {
+            margin: 10px;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -270,7 +288,7 @@
 
                 <div class="grid grid-cols-2 gap-8 pt-8 border-t border-stone-300/50">
                     <div>
-                        <span class="block text-4xl font-serif text-stone-900 mb-2">15+</span>
+                        <span class="block text-4xl font-serif text-stone-900 mb-2">25+</span>
                         <span class="text-[10px] uppercase tracking-widest text-stone-500">Years Teaching</span>
                     </div>
                     <div>
@@ -286,51 +304,29 @@
     <!-- UPCOMING SHOWS -->
     <section id="live" class="py-32 px-6 md:px-12 bg-stone-200/30 border-y border-stone-200">
         <div class="max-w-screen-2xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-baseline mb-20 gap-8 reveal">
-                <h2 class="text-4xl md:text-6xl font-serif text-stone-900">Upcoming Performances</h2>
-                <a href="mailto:booking@chiaohua.com" class="text-[10px] uppercase tracking-widest-xl text-stone-500 hover:text-stone-900 border-b border-transparent hover:border-stone-900 transition-all pb-1">Request Booking Info</a>
+            <div class="flex flex-col md:flex-row justify-between items-baseline mb-12 gap-8 reveal">
+                <div>
+                    <h2 class="text-4xl md:text-6xl font-serif text-stone-900 mb-4">Upcoming Performances</h2>
+                    <p class="text-stone-500 font-light max-w-lg">
+                        Explore upcoming venues and locations. Use the button below to see how far you are from each event.
+                    </p>
+                </div>
+                
+                <div class="flex flex-col items-end gap-2">
+                    <button onclick="calculateDistances()" id="distance-btn" class="px-6 py-2 border border-stone-900 rounded-full hover:bg-stone-900 hover:text-stone-50 transition-colors duration-300 text-[10px] uppercase tracking-widest flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                        Find Distance
+                    </button>
+                    <span id="geo-status" class="text-[10px] text-stone-400 h-4"></span>
+                </div>
             </div>
 
-            <div class="w-full text-left border-t border-stone-300">
-                <!-- Row 1 -->
-                <div class="group grid grid-cols-1 md:grid-cols-12 py-8 border-b border-stone-300 hover:bg-stone-200/50 transition-colors items-center reveal cursor-pointer">
-                    <div class="md:col-span-2 text-xs uppercase tracking-widest text-stone-500">Oct 24, 2026</div>
-                    <div class="md:col-span-4 text-2xl font-serif text-stone-900 group-hover:italic transition-all">Konzerthaus Vienna</div>
-                    <div class="md:col-span-3 text-sm text-stone-600 font-light mt-2 md:mt-0">With Przemysław Strączek</div>
-                    <div class="md:col-span-3 text-right mt-4 md:mt-0">
-                        <span class="inline-block px-6 py-2 border border-stone-400 rounded-full text-[10px] uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all">Tickets</span>
-                    </div>
-                </div>
+            <!-- Map Container -->
+            <div id="concert-map" class="w-full h-[400px] bg-stone-200 mb-16 grayscale-[80%] hover:grayscale-0 transition-all duration-700 reveal z-10 border border-stone-300"></div>
 
-                <!-- Row 2 -->
-                <div class="group grid grid-cols-1 md:grid-cols-12 py-8 border-b border-stone-300 hover:bg-stone-200/50 transition-colors items-center reveal cursor-pointer">
-                    <div class="md:col-span-2 text-xs uppercase tracking-widest text-stone-500">Nov 12, 2026</div>
-                    <div class="md:col-span-4 text-2xl font-serif text-stone-900 group-hover:italic transition-all">Porgy & Bess</div>
-                    <div class="md:col-span-3 text-sm text-stone-600 font-light mt-2 md:mt-0">Jazz Improvisation Night</div>
-                    <div class="md:col-span-3 text-right mt-4 md:mt-0">
-                        <span class="inline-block px-6 py-2 border border-stone-400 rounded-full text-[10px] uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all">Tickets</span>
-                    </div>
-                </div>
-
-                <!-- Row 3 -->
-                <div class="group grid grid-cols-1 md:grid-cols-12 py-8 border-b border-stone-300 hover:bg-stone-200/50 transition-colors items-center reveal cursor-pointer">
-                    <div class="md:col-span-2 text-xs uppercase tracking-widest text-stone-500">Dec 05, 2026</div>
-                    <div class="md:col-span-4 text-2xl font-serif text-stone-900 group-hover:italic transition-all">Musikverein Graz</div>
-                    <div class="md:col-span-3 text-sm text-stone-600 font-light mt-2 md:mt-0">The Orchestra of Cultures</div>
-                    <div class="md:col-span-3 text-right mt-4 md:mt-0">
-                        <span class="inline-block px-6 py-2 border border-stone-400 rounded-full text-[10px] uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all">Sold Out</span>
-                    </div>
-                </div>
-
-                 <!-- Row 4 -->
-                 <div class="group grid grid-cols-1 md:grid-cols-12 py-8 border-b border-stone-300 hover:bg-stone-200/50 transition-colors items-center reveal cursor-pointer">
-                    <div class="md:col-span-2 text-xs uppercase tracking-widest text-stone-500">Jan 20, 2027</div>
-                    <div class="md:col-span-4 text-2xl font-serif text-stone-900 group-hover:italic transition-all">National Concert Hall</div>
-                    <div class="md:col-span-3 text-sm text-stone-600 font-light mt-2 md:mt-0">Taipei, Taiwan</div>
-                    <div class="md:col-span-3 text-right mt-4 md:mt-0">
-                        <span class="inline-block px-6 py-2 border border-stone-400 rounded-full text-[10px] uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all">Tickets</span>
-                    </div>
-                </div>
+            <div class="w-full text-left border-t border-stone-300" id="concert-list">
+                <!-- Concert Items will be rendered here dynamically via JS, 
+                     but we keep static ones here for SEO/No-JS fallback content -->
             </div>
         </div>
     </section>
@@ -564,83 +560,219 @@
 
     <!-- Scripts for Interactivity -->
     <script>
-        // VIDEO PLAYER LOGIC
+        // --- CONCERT DATA & MAP LOGIC ---
+        const concerts = [
+            {
+                date: 'March 19, 2026',
+                venue: 'Sargfabrik',
+                address: 'Goldschlagstraße 169, 1140 Wien',
+                title: 'DUSHA CONNECTION - Outside',
+                details: 'A Jazzy Tribute to Erik S • 19:30',
+                coords: [48.1962, 16.3124]
+            },
+            {
+                date: 'Oct 24, 2026',
+                venue: 'Konzerthaus Vienna',
+                address: 'Lothringerstraße 20, 1030 Wien',
+                title: 'With Przemysław Strączek',
+                details: 'Berio-Saal • 19:30',
+                coords: [48.2008, 16.3770]
+            },
+            {
+                date: 'Nov 12, 2026',
+                venue: 'Porgy & Bess',
+                address: 'Riemergasse 11, 1010 Wien',
+                title: 'Jazz Improvisation Night',
+                details: 'Experimental Series • 20:30',
+                coords: [48.2058, 16.3756]
+            },
+            {
+                date: 'Dec 05, 2026',
+                venue: 'Musikverein Graz',
+                address: 'Opernring 2, 8010 Graz',
+                title: 'The Orchestra of Cultures',
+                details: 'Großer Saal • 19:00',
+                coords: [47.0694, 15.4418]
+            },
+            {
+                date: 'Jan 20, 2027',
+                venue: 'National Concert Hall',
+                address: 'No. 21-1, Zhongshan S Rd, Taipei City',
+                title: 'Solo Recital',
+                details: 'Main Auditorium • 19:30',
+                coords: [25.0357, 121.5197]
+            }
+        ];
+
+        // Initialize Map
+        const map = L.map('concert-map', {
+            center: [48.2082, 16.3738], // Default to Vienna
+            zoom: 12,
+            scrollWheelZoom: false, // Prevent accidental scrolling
+            zoomControl: false // Minimalist look
+        });
+
+        // Add Tiles (Dark/Grayscale for aesthetic matching)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // Add Markers and Build List
+        const concertList = document.getElementById('concert-list');
+        
+        concerts.forEach((c, index) => {
+            // Add Marker
+            const marker = L.marker(c.coords).addTo(map);
+            marker.bindPopup(`<b>${c.venue}</b><br>${c.date}<br>${c.title}`);
+
+            // Build List Item HTML
+            const item = document.createElement('div');
+            item.className = "group grid grid-cols-1 md:grid-cols-12 py-8 border-b border-stone-300 hover:bg-stone-200/50 transition-colors items-start reveal";
+            item.innerHTML = `
+                <div class="md:col-span-2 text-xs uppercase tracking-widest text-stone-500 mb-2 md:mb-0">${c.date}</div>
+                <div class="md:col-span-4">
+                    <div class="text-2xl font-serif text-stone-900 group-hover:italic transition-all leading-tight">${c.venue}</div>
+                    <div class="text-xs text-stone-500 mt-1">${c.address}</div>
+                </div>
+                <div class="md:col-span-4 mt-4 md:mt-0">
+                    <div class="text-lg font-serif text-stone-800">${c.title}</div>
+                    <div class="text-sm text-stone-600 font-light italic">${c.details}</div>
+                </div>
+                <div class="md:col-span-2 flex flex-col items-end justify-center mt-4 md:mt-0 gap-2">
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${c.coords[0]},${c.coords[1]}" target="_blank" class="text-[10px] uppercase tracking-widest text-stone-600 hover:text-stone-900 border-b border-stone-300 hover:border-stone-900 transition-all flex items-center gap-1">
+                        Get Directions <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                    </a>
+                    <span class="distance-display text-[10px] font-mono text-stone-400 opacity-0 transition-opacity" id="dist-${index}"></span>
+                </div>
+            `;
+            
+            // Highlight marker on hover
+            item.addEventListener('mouseenter', () => marker.openPopup());
+            
+            concertList.appendChild(item);
+        });
+
+        // Fit map bounds to show all markers initially
+        const group = new L.featureGroup(concerts.map(c => L.marker(c.coords)));
+        map.fitBounds(group.getBounds().pad(0.1));
+
+        // --- DISTANCE CALCULATION LOGIC ---
+        function calculateDistances() {
+            const status = document.getElementById('geo-status');
+            const btn = document.getElementById('distance-btn');
+            
+            status.textContent = "Locating...";
+            btn.disabled = true;
+
+            if (!navigator.geolocation) {
+                status.textContent = "Geolocation not supported";
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    
+                    // Add user marker
+                    const userIcon = L.divIcon({
+                        className: 'user-marker',
+                        html: '<div style="background-color:#ef4444;width:12px;height:12px;border-radius:50%;border:2px solid white;box-shadow:0 2px 4px rgba(0,0,0,0.3);"></div>',
+                        iconSize: [12, 12]
+                    });
+                    L.marker([userLat, userLng], {icon: userIcon}).addTo(map).bindPopup("You are here").openPopup();
+                    
+                    // Center map on user
+                    map.setView([userLat, userLng], 10);
+
+                    // Calculate and display distances
+                    concerts.forEach((c, index) => {
+                        const dist = getDistanceFromLatLonInKm(userLat, userLng, c.coords[0], c.coords[1]);
+                        const distEl = document.getElementById(`dist-${index}`);
+                        distEl.textContent = `${dist.toFixed(1)} km away`;
+                        distEl.classList.remove('opacity-0');
+                    });
+
+                    status.textContent = "Distances updated";
+                    btn.classList.add('bg-stone-900', 'text-white');
+                    btn.innerHTML = "Updated";
+                },
+                () => {
+                    status.textContent = "Unable to retrieve location";
+                    btn.disabled = false;
+                }
+            );
+        }
+
+        // Haversine Formula for distance
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = deg2rad(lat2 - lat1);  
+            var dLon = deg2rad(lon2 - lon1); 
+            var a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2); 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = R * c; // Distance in km
+            return d;
+        }
+
+        function deg2rad(deg) {
+            return deg * (Math.PI/180)
+        }
+
+
+        // --- VIDEO PLAYER LOGIC ---
         const modal = document.getElementById('video-modal');
         const iframe = document.getElementById('youtube-frame');
         const fallbackLink = document.getElementById('youtube-fallback-link');
         const closeModalBtn = document.getElementById('close-modal-btn');
 
         function openVideo(videoId) {
-            // Set the iframe src with cleaned parameters
-            // playsinline=1 keeps it in the modal on mobile
-            // rel=0 stops random unrelated videos from showing at end
             iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1`;
-            
-            // Update fallback link just in case video fails to load due to rights
             fallbackLink.href = `https://www.youtube.com/watch?v=${videoId}`;
-            
-            // Show modal (remove hidden)
             modal.classList.remove('hidden');
-            
-            // Allow a tiny delay for CSS transition to work (opacity 0 -> 1)
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
             }, 50);
-            
-            // Lock body scroll
             document.body.style.overflow = 'hidden';
         }
 
         function closeVideo() {
-            // Fade out
             modal.classList.add('opacity-0');
-            
-            // Wait for transition to finish, then hide and clear src
             setTimeout(() => {
                 modal.classList.add('hidden');
-                iframe.src = ''; // Stops the video
+                iframe.src = '';
                 document.body.style.overflow = '';
-            }, 500); // matches the css transition duration
+            }, 500);
         }
 
         closeModalBtn.addEventListener('click', closeVideo);
-
-        // Close on background click
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeVideo();
-            }
+            if (e.target === modal) closeVideo();
         });
-
-        // Close on Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                closeVideo();
-            }
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeVideo();
         });
 
-
-        // Reveal Animations on Scroll
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
+        // --- SCROLL ANIMATIONS ---
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Only animate once
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Mobile Menu Toggle
+        // --- MOBILE MENU ---
         const menuBtn = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -661,7 +793,6 @@
             }
         });
 
-        // Close mobile menu on link click
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 isMenuOpen = false;
@@ -672,13 +803,12 @@
             });
         });
 
-        // Navbar Transition on Scroll
+        // --- NAVBAR SCROLL ---
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.classList.add('bg-[#f2f0eb]/90', 'backdrop-blur-md', 'shadow-sm');
+                navbar.classList.add('bg-[#f2f0eb]/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
                 navbar.classList.remove('py-8');
-                navbar.classList.add('py-4');
             } else {
                 navbar.classList.remove('bg-[#f2f0eb]/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
                 navbar.classList.add('py-8');
